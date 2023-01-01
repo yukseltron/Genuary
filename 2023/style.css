@@ -1,3 +1,10 @@
-body {
-    font-family: sans-serif;
+div {
+    display: flex;
+    flex-direction: column;
 }
+
+a {
+    margin-bottom: 10px;
+}
+
+

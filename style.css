@@ -1,0 +1,15 @@
+:root {
+    font-size: 200%;
+    background-color: black;
+    color: white;
+}
+
+a {
+    color:aqua;
+}
+
+body {
+    font-family: sans-serif;
+    display: flex;
+    flex-direction: column;
+}
