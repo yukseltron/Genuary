@@ -34,6 +34,7 @@ function draw() {
     planet(1, 20, '#ffffff', 350.0, 400)
 
     planet(1, 10, '#ffffff', 375.0, 200)
+
 }
 
 function planet(neg, r, color, revolution, steps) {
@@ -45,6 +46,13 @@ function planet(neg, r, color, revolution, steps) {
     noFill();
     stroke(color);
     ellipse(px, py, r, r);
+}
+
+function keyPressed() {
+  // this will download the first 5 seconds of the animation!
+  if (key === 's') {
+    saveGif('day1', 5);
+  }
 }
 
 
