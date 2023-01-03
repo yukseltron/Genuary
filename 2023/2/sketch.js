@@ -9,7 +9,6 @@ function setup() {
 function draw() {
 
   background(0);
-  // makeNoiseImage();
   makeLines(100, '#00FFFF');
 
 }
@@ -21,7 +20,6 @@ function makeLines(steps, color) {
   var currStep = frameCount % steps;
   var t = map(currStep, 0, steps, 0, TWO_PI);
   var px = width + radius * cos(t);
-  var py = width + radius * sin(t);
 
   var noiseAtLoc = height * noise(myScale * px);
   myLoopingNoiseArray[currStep] = noiseAtLoc;
