@@ -16,10 +16,10 @@ function preload() {
 function setup() {
   createCanvas(windowWidth, windowHeight);
 
-  image(img, 0, 0, 50, 80); //draws image
+  image(img, windowWidth/2, windowHeight/2, 50, 100); //draws image
   
 
-  for (let i = 0; i < 25; i++) {
+  for (let i = 0; i < 5; i++) {
     particles[i] = new Particle(width / 2, height / 2);
   }
 
