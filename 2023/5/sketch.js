@@ -1,4 +1,4 @@
-var symbolSize = 20;
+var symbolSize = 25;
 var streams = [];
 var fadeInterval = 0;
 
@@ -8,7 +8,7 @@ function setup() {
 	var x = 0;
 	for(i = 0; i <= width / symbolSize; i++) {
 		stream = new Stream();
-		stream.generateSymbols(x, random(10));
+		stream.generateSymbols(x, random(4));
 		streams.push(stream);
 		x += symbolSize;
 	}
@@ -18,7 +18,7 @@ function setup() {
 
 function draw() {
 	background(0, 150);
-	
+	frameRate(20);
 	streams.forEach(function(stream){
 		stream.render();
 	});
@@ -34,14 +34,14 @@ function Symbol(x, y, speed, firstSymbol, opacity) {
 	this.firstSymbol = firstSymbol;
 	this.opacity = opacity;
   this.r = random(255);
-  this.g = random(255);
-  this.b = random(255);
+  this.g = 0;
+  this.b = random(200);
 
 	
 	this.symbolRandomizer = function() {
       fill(this.r, this.g, this.b);
 			if(frameCount % this.switchInterval == 0){
-				this.value = random(100);
+				this.value = random([randSymbol()]);
 		}
 	}
 	
@@ -75,4 +75,27 @@ function Stream() {
       symbol.symbolRandomizer();
 		});
 	}
+}
+
+function randSymbol() {
+    var letters = [
+		"ERROR: ",
+		"ERROR: ",
+		"ERROR: ",
+		"ERROR: ",
+		"WARNING: ",
+		"WARNING: ",
+		"WARNING: ",
+		"WARNING: ",
+		"RUNNING",
+		"CONFLICT",
+		"UNRESOLVED",
+		"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", 1, 2, 3, 4, 5, 6,  7, 8, 9 ];
+	let symbol = "";
+	let count = random(10);
+
+	for (let i=0; i<count; i++) {
+		symbol += letters[Math.floor(Math.random() * letters.length)];
+	}
+    return symbol;
 }

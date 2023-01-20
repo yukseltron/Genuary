@@ -16,6 +16,7 @@ function setup() {
 function draw() {
   plantOne.step();
   plantOne.render();
+  frameRate(10);
 }
 
 var Walker = function(x, y){
@@ -33,7 +34,7 @@ var Walker = function(x, y){
   
   this.render = function(){
     this.r = random(100, 255);
-    this.g = random(100, 255);
+    this.g = 0;
     this.b = random(100, 255);
     if (random(10) >= 3)
       noFill();
@@ -42,7 +43,8 @@ var Walker = function(x, y){
 
     this.size = random(50, 200);
     stroke(this.r, this.g, this.b);
-    rotate(random(100));
+    rectMode(CENTER);
+    translate(random(-200,200), random(-200,200))
     if (random(10) >= 9)
       rect(this.x, this.y, random(this.size), random(this.size));
     else if (random(10) >= 8.5)
