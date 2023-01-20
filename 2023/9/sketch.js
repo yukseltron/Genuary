@@ -64,9 +64,8 @@ var Walker = function(x, y){
     //point(this.x, this.y);
     fill(this.r, this.g, this.b);
     rect(this.x, this.y, this.size, this.size);
-    fill('red');
     if (random(10) >= 9.9)
-      ellipse(this.x+10, this.y+10, 10);
+      flower(this.x+10, this.y+10, 10, 'red');
   }
   
   this.step = function(){
@@ -109,3 +108,24 @@ var Walker = function(x, y){
   }
   
 };
+
+function flower(x,y,r, color) {
+  stroke('lightgreen');
+  noFill();
+  beginShape();
+  vertex(x-random(5), y+random(5));
+  vertex(x, y+random(20));
+  vertex(x+random(5), y+random(5));
+  vertex(x+random(20), y);
+  vertex(x+random(5), y-random(5));
+  vertex(x, y-random(20));
+  vertex(x-random(5), y-random(5));
+  vertex(x-random(20), y);
+  endShape();
+  
+  noStroke();
+  fill(color)
+  ellipse(x,y,r);
+  fill('yellow')
+  ellipse(x,y,r/2);
+}
