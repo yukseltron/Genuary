@@ -61,10 +61,11 @@ function drawWindow(x,y) {
   if (random(10) >= 7) {
     noStroke()
     fill(255,255,0,random(10));
-    for(i = 0; i < 100; i++){
+    let r = random(50,100)
+    for(i = 0; i < r; i++){
       //ellipse(x,y, i);
-      rect(x+random(-20,20),y+random(-20,20), i, i);
-      rect(x-random(-20,20),y-random(-20,20), i, i);
+      rect(x+random(-40,40),y+random(-40,40), i, i);
+      rect(x-random(-40,40),y-random(-40,40), i, i);
     }
     stroke('white');
   } else if (random(10) <= 5) {
