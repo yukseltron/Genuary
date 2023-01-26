@@ -8,8 +8,8 @@ function setup() {
   background(0)
 
   // Define colors
-  c1 = color(255, 255, 255);
-  c2 = color(0, 0, 0);
+  c1 = color(random(255), random(255), random(255));
+  c2 = color(50, 50, 50);
 
   rectMode(CENTER);
   angleMode(DEGREES);
@@ -18,8 +18,8 @@ function setup() {
 }
 
 function draw() {
-  c1.setAlpha(random(10));
-  c2.setAlpha(random(10))
+  c1.setAlpha(random(100));
+  c2.setAlpha(random(100))
 
   translate(windowWidth/2-500, windowHeight/2-500);
   setGradient(0,0,random(1000),random(1000),c2,c1,X_AXIS);
@@ -33,7 +33,7 @@ function setGradient(x, y, w, h, c1, c2, axis) {
     for (let i = y; i <= y + h; i++) {
       let inter = map(i, y, y + h, 0, 1);
       let c = lerpColor(c1, c2, inter);
-      stroke(c);
+      stroke(random(255), random(255), random(255));
       line(x, i, x + w, i);
     }
   } else if (axis === X_AXIS) {
