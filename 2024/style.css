@@ -1,0 +1,15 @@
+
+.body-2024 {
+    background-color: green;
+    color: white;
+    animation: fade-in-2024 1s;
+}
+
+@keyframes fade-in-2024 {
+    from {
+        background-color: black;
+    }
+    to {
+        background-color: green;
+    }
+}

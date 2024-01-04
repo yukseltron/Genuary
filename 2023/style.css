@@ -1,10 +1,13 @@
-div {
-    display: flex;
-    flex-direction: column;
+.body-2023 {
+    background-color: blue;
+    animation: fade-in-2023 1s;
 }
 
-a {
-    margin-bottom: 10px;
+@keyframes fade-in-2023 {
+    from {
+        background-color: black;
+    }
+    to {
+        background-color: blue;
+    }
 }
-
-
