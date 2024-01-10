@@ -19,11 +19,3 @@ function draw() {
     }
   }
 }
-
-function cube(size, direction) {
-  noFill();
-  //small box
-  rotateX(frameCount * 0.004 * direction);
-  rotateY(frameCount * 0.004 * direction);
-  box(size,random(size,size),size);
-}
