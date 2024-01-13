@@ -2,9 +2,10 @@ let t = 0.0;
 let strokeCounter = [];
 let randomRed = [];
 let randomGreen = [];
+let randomAlpha = [];
 let points = [
   {
-    a: 10,
+    a: Math.random() * 10,
     b: 5.6,
     c: 2,
     //inner
@@ -15,7 +16,7 @@ let points = [
     h: 10,
   },
   {
-    a: 12,
+    a: Math.random() * 10,
     b: 5.6,
     c: 2,
     //inner
@@ -26,7 +27,7 @@ let points = [
     h: 10,
   },
   {
-    a: 9,
+    a: Math.random() * 10,
     b: 5.6,
     c: 2,
     //inner
@@ -40,11 +41,12 @@ let points = [
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  background('beige');
+  background('black');
   for (let i = 0; i < 3; i++) {
     strokeCounter.push(0.1);
-    randomRed.push(random(20, 255));
+    randomRed.push(random(100, 255));
     randomGreen.push(random(100, 250));
+    randomAlpha.push(random(10, 250));
   }
 }
 
@@ -55,17 +57,18 @@ function draw() {
 
   for (let i = 0; i < points.length; i++) {
     beginShape();
+    rotate(t * i + 0.5 / 2.434);
     strokeWeight(strokeCounter[i]);
-    stroke(10+strokeCounter[i], randomRed[i], randomGreen[i]);
+    stroke(10*strokeCounter[i], randomRed[i], randomGreen[i], randomAlpha[i]);
   
-    if (strokeCounter[i] >= 50) {
-      strokeCounter[i] = 0.00001;
-      background('beige');
+    if (strokeCounter[i] >= 10) {
+      strokeCounter[i] = 10;
+      //background('black');
     }
     else
       strokeCounter[i] += 0.1;
     for (let x = -width / 2; x < width / 2; x += 100) {
-      let y = (sin(points[i].a * x + t + points[i].b + points[i].c * sin(points[i].d * x + points[i].e * t + points[i].f) * points[i].g) * points[i].h) ** 3;
+      let y = (sin(points[i].a * x + t + points[i].b + points[i].c * sin(points[i].d * x + points[i].e * t + points[i].f) * points[i].g) * points[i].h) ** 3/4;
       curveVertex(x, y);
     }
     endShape();
