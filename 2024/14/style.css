@@ -1,0 +1,14 @@
+.sketch-14-2024 {
+    margin: 0;
+    background-color: green;
+    animation: fade-in;
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
