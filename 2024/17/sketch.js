@@ -1,61 +1,44 @@
-let tiles = [];
-let tileSize = 20;
-let rows, cols;
-let animationSpeed = 0.01;
-
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  noStroke();
-  rows = floor(height / tileSize);
-  cols = floor(width / tileSize);
-
-  // Initialize the tiles with random colors
-  for (let i = 0; i < rows; i++) {
-    tiles[i] = [];
-    for (let j = 0; j < cols; j++) {
-      tiles[i][j] = color(random(255), random(100, 255), random(100, 255));
-    }
-  }
+  colorMode(HSB, 1);
+  noFill();
+  strokeWeight(1);
+  frameRate(3); // Adjust frame rate as needed for the desired speed of change
 }
 
 function draw() {
-  background(255);
+  let t = frameCount * 0.01; // Use frameCount as a time variable for gradual changes
 
-  // Draw the animated mosaic
-  for (let i = 0; i < rows; i++) {
-    for (let j = 0; j < cols; j++) {
-      let x = j * tileSize;
-      let y = i * tileSize;
+  let h = noise(t);
+  let s = noise(t + 10);
+  let b = noise(t + 20);
 
-      // Calculate size based on noise
-      let size = tileSize + noise(i * 0.1, j * 0.1, frameCount * animationSpeed) * 30;
+  background(h, s, b);
 
-      // Draw a star-like shape
-      drawStar(x + tileSize / 2, y + tileSize / 2, 5, size / 2, size / 4, tiles[i][j]);
+  let strokeH = (h + 0.5) % 1;
+  let strokeS = (s + 0.5) % 1;
+  let strokeB = (b + 0.5) % 1;
 
-      // Connect stars to their neighbors
-      if (i < rows - 1) {
-        let nextY = (i + 1) * tileSize + tileSize / 2;
-        line(x + tileSize / 2, y + tileSize / 2, x + tileSize / 2, nextY);
+  stroke(strokeH, strokeS, strokeB, 5);
+
+  let size = pow(2, int(random(6, 10)));
+  let vert = int(random(1, 2)) * 4;
+  let m1 = random(0.5, 3);
+  let m2 = -m1 + random(-0.5, 0.5);
+
+  for (let x = 0; x < width; x += size) {
+    for (let y = 0; y < height; y += size) {
+      push();
+      translate(x + size / 2, y + size / 2);
+
+      beginShape();
+      let a = TWO_PI / vert;
+      for (let v = 0; v < vert; v++) {
+        vertex(cos(a * v) * m1 * size, sin(a * v) * m1 * size);
+        vertex(cos(a * (v + 0.5)) * m2 * size, sin(a * (v + 0.5)) * m2 * size);
       }
-
-      if (j < cols - 1) {
-        let nextX = (j + 1) * tileSize + tileSize / 2;
-        line(x + tileSize / 2, y + tileSize / 2, nextX, y + tileSize / 2);
-      }
+      endShape(CLOSE);
+      pop();
     }
   }
-}
-
-function drawStar(x, y, points, outerRadius, innerRadius, color) {
-  beginShape();
-  let angle = TWO_PI / points;
-  for (let i = 0; i < points * 2; i++) {
-    let radius = i % 2 === 0 ? outerRadius : innerRadius;
-    let xPos = x + cos(angle * i) * radius;
-    let yPos = y + sin(angle * i) * radius;
-    vertex(xPos, yPos);
-  }
-  endShape(CLOSE);
-  fill(color);
 }
