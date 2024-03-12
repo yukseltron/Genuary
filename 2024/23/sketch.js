@@ -1,61 +1,33 @@
-let tiles = [];
-let tileSize = 10;
-let rows, cols;
-let animationSpeed = 0.01;
+let cols; // Number of columns
+let rows; // Number of rows
+let tileSize;
+let r, g, b; // Red, green, and blue color components
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  noStroke();
-  rows = floor(height / tileSize);
-  cols = floor(width / tileSize);
-
-  // Initialize the tiles with random colors
-  for (let i = 0; i < rows; i++) {
-    tiles[i] = [];
-    for (let j = 0; j < cols; j++) {
-      tiles[i][j] = color(random(100,255), random(100, 255), random(100, 255));
-    }
-  }
+  cols = 32;
+  rows = 32;
+  tileX = width / cols;
+  tileY = height / rows;
+  noFill();
+  frameRate(30); // Set the frame rate to control the speed of the animation
+  r = random(100, 255); // Random red component
+  g = random(10, 255); // Random green component
+  b = random(100, 255); // Random blue component
 }
 
 function draw() {
-  background(255);
-
-  // Draw the animated mosaic
-  for (let i = 0; i < rows; i++) {
-    for (let j = 0; j < cols; j++) {
-      let x = j * tileSize;
-      let y = i * tileSize;
-
-      // Calculate size based on noise
-      let size = tileSize + noise(i * 0.1, j * 0.1, frameCount * animationSpeed) * 30;
-
-      // Draw a star-like shape
-      drawStar(x + tileSize / 2, y + tileSize / 2, 5, size / 2, size / 4, tiles[i][j]);
-
-      // Connect stars to their neighbors
-      if (i < rows - 1) {
-        let nextY = (i + 1) * tileSize + tileSize / 2;
-        line(x + tileSize / 2, y + tileSize / 2, x + tileSize / 2, nextY);
-      }
-
-      if (j < cols - 1) {
-        let nextX = (j + 1) * tileSize + tileSize / 2;
-        line(x + tileSize / 2, y + tileSize / 2, nextX, y + tileSize / 2);
-      }
+  background(0);
+  for (let i = 0; i < cols; i++) {
+    for (let j = 0; j < rows; j++) {
+      // Calculate procedural colors for each tile
+      let red = sin(frameCount * 0.03 + i * 0.5) * 12 + r; // Red component
+      let green = cos(frameCount * 0.06 + j * 0.5) * 17 + g; // Green component
+      let blue = tan(frameCount * 0.07 + (i * j) * 0.5) * b; // Blue component
+      
+      // Draw a rectangle with the procedurally generated color
+      stroke(red, green, blue);
+      rect(i * tileX, j * tileY, tileX, tileY);
     }
   }
-}
-
-function drawStar(x, y, points, outerRadius, innerRadius, color) {
-  beginShape();
-  let angle = TWO_PI / points;
-  for (let i = 0; i < points; i++) {
-    let radius = i % 2 === 0 ? outerRadius : innerRadius;
-    let xPos = x + cos(angle * i) * radius;
-    let yPos = y + sin(angle * i) * radius;
-    vertex(xPos, yPos);
-  }
-  endShape(CLOSE);
-  fill(color);
 }

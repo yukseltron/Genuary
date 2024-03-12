@@ -1,36 +1,56 @@
-let startX, startY;
-let endX, endY;
+class Snake {
+  constructor() {
+    this.path = [createVector(width/2, height/2)]; // Array to store the points of the path
+    this.stepSize = 15; // Size of each step
+    this.maxLength = 10; // Maximum length of the path
+    this.angle = 0; // Initial angle
+  }
 
-function setup() {
-  createCanvas(windowWidth, windowHeight);
-  background('beige');
-  stroke('orangered');
-  // Starting and ending Y positions for the line
-  startY = height/2
-  endY = height/2
-  
-  // Initialize starting point on the left side
-  startX = 0;
-  endX = 0;
-}
-
-function draw() {
-  let maxSegments = 1; // Maximum number of line segments to draw per frame
-  
-  // Draw line segment by segment
-  for (let i = 0; i < maxSegments; i++) {
-    let newX = endX + sin(endY/random(10)) * 100; // Randomly generate X position (using sin() to make it more interesting
-    let newY = endY + cos(endX/random(10)) * 100; // Randomly generate Y position (using cos() to make it more interesting
-    if (newY > height || newY < 0) {
-      newY = endY; // If the new Y position is out of bounds, reset it to the previous Y position
-    }
-    if (newX > width || newX < 0) {
-      newX = endX; // If the new X position is out of bounds, reset it to the previous X position
-    }
+  update() {
+    let newX = this.path[this.path.length - 1].x + cos(this.angle) * this.stepSize;
+    let newY = this.path[this.path.length - 1].y + sin(this.angle) * this.stepSize;
     
-    line(endX, endY, newX, newY);
-    endX = newX;
-    endY = newY;
+    if (newX < 0 || newX > width || newY < 0 || newY > height) {
+      this.angle += PI; // Reverse direction if hitting boundaries
+    } else {
+      this.path.push(createVector(newX, newY));
+      if (this.path.length > this.maxLength) {
+        this.path.shift(); // Remove the oldest point if the path is too long
+      }
+    }
+
+    this.angle += random(-PI / 6, PI / 6); // Increase the angle randomly
+  }
+
+  draw(colour) {
+    stroke(colour);
+    strokeWeight(40);
+    noFill();
+    beginShape();
+    for (let i = 0; i < this.path.length; i++) {
+      curveVertex(this.path[i].x, this.path[i].y);
+    }
+    endShape();
   }
 }
 
+let snakes = [];
+let colours = [];
+let backgroundColor;
+
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+  backgroundColor = color(random(100,255), random(100,255), random(100,255));
+  for (let i = 0; i < 50; i++) { // Create 5 snakes
+    snakes.push(new Snake());
+    colours.push(color(random(255), random(255), random(255)));
+  }
+}
+
+function draw() {
+  background(backgroundColor);
+  for (let i = 0; i < snakes.length; i++) {
+    snakes[i].update();
+    snakes[i].draw(colours[i]);
+  }
+}

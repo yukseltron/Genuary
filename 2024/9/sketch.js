@@ -1,7 +1,7 @@
 let endX, endY;
 let kidX, kidY;
 
-let stepChar = ['/\\', '|']; // ASCII character representing footsteps
+let stepChar = ['/\\', '|', '^', '*']; // ASCII character representing footsteps
 let stepSize = 40; // Size of each step
 
 function setup() {
@@ -22,7 +22,7 @@ function draw() {
 }
 
 function parent() {
-  let footed = random([0,1]);
+  let footed = random([0,1,2,3]);
   frameRate(random(2,10));
   let maxSteps = 1; // Maximum number of steps to draw per frame
 
