@@ -1,13 +1,7 @@
-.sketch-30-2024 {
+.sketch-31-2024 {
     margin: 0;
     background-color: lightgrey;
     display: flex;
     justify-content: center;
     align-items: center;
-}
-
-.sketch-30-2024 canvas {
-    display: block;
-    width: 100%;
-    height: 100%;
 }
