@@ -1,26 +1,26 @@
-let colors = []; // 2D array for storing colors
+let colors = [];
 let sizeX = 5;
-let sizeY = 30;
+let sizeY = 50;
 let cols, rows;
-const gray = 'rgb(210, 210, 210)'
+const gray = 'white'
 
 function setup() {
     createCanvas(500, 500);
-    cols = width / sizeX; // Number of columns
-    rows = height / sizeY; // Number of rows
+    cols = width / sizeX;
+    rows = height / sizeY; 
     frameRate(4);
 
-    // Initialize colors
+    
     for (let x = 0; x < cols / 2; x++) {
         colors[x] = [];
         for (let y = 0; y < rows; y++) {
-            colors[x][y] = random([gray, 'black',]);
+            colors[x][y] = random([gray, 'black']);
         }
     }
 }
 
 function draw() {
-    // Gradually transition colors
+    
     for (let x = 0; x < cols / 2; x++) {
         for (let y = 0; y < rows; y++) {
             let currentColor = colors[x][y];
@@ -31,7 +31,7 @@ function draw() {
             let targetG = green(currentColor);
             let targetB = blue(currentColor);
 
-            // Ensure RGB values stay within bounds
+            
             targetR = constrain(targetR, 10, 255);
             targetG = constrain(targetG, 10, 255);
             targetB = constrain(targetB, 10, 255);
@@ -40,10 +40,10 @@ function draw() {
         }
     }
 
-    // Draw the grid with symmetry
+    
     for (let x = 0; x < cols; x++) {
         for (let y = 0; y < rows; y++) {
-            let symX = x < cols / 2 ? x : cols - x - 1; // Reflect horizontally
+            let symX = x < cols / 2 ? x : cols - x - 1; 
             fill(colors[symX][y]);
             noStroke();
             rect(x * sizeX, y * sizeY, sizeX, sizeY);

@@ -1,20 +1,20 @@
-let colors = []; // 2D array for storing colors
+let colors = []; 
 let sizeX = 20;
 let sizeY = 20;
 let cols;
 let rows;
-const gray = 'rgb(210, 210, 210)'
+const gray = 'white';
 
 function setup() {
     createCanvas(500, 500);
-    cols = width / sizeX; // Number of columns
-    rows = height / sizeY; // Number of rows
+    cols = width / sizeX; 
+    rows = height / sizeY; 
     frameRate(4);
 
     for (let x = 0; x < cols / 2; x++) {
         colors[x] = [];
         for (let y = 0; y < rows; y++) {
-            colors[x][y] = random([gray, 'black',]);
+            colors[x][y] = random([gray, 'red',]);
         }
     }
 }
@@ -26,13 +26,13 @@ function draw() {
             if (currentColor === gray) {
                 continue;
             }
-            colors[x][y] = color(random(['black', gray]));
+            colors[x][y] = color(random(['red', gray]));
         }
     }
 
     for (let x = 0; x < cols; x++) {
         for (let y = 0; y < rows; y++) {
-            let symX = x < cols / 2 ? x : cols - x - 1; // Reflect horizontally
+            let symX = x < cols / 2 ? x : cols - x - 1; 
             fill(colors[symX][y]);
             noStroke();
             ellipse(x * sizeX, y * sizeY, sizeX);
