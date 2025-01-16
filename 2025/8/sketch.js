@@ -1,50 +1,55 @@
-let circles = [];
-let i = 0;
-let x = 0;
-let y = 0;
+let colors = [];
+let sizeX = 2;
+let sizeY = 2;
+let cols, rows;
+const gray = 'white'
 
 function setup() {
-  createCanvas(windowWidth, windowHeight);
-  noStroke();
-  frameRate(100);
-  
-  // Create 10,000 circles
-  for (let i = 0; i < 1000000; i++) {
-    circles.push({
-      x: random(width),
-      y: random(height),
-      size: random(10),
-      color: color(random(100,255), random(255), random(255)),
-      noiseOffsetX: random(1000),
-      noiseOffsetY: random(1000)
-    });
-  }
+    createCanvas(500, 500);
+    cols = width / sizeX;
+    rows = height / sizeY; 
+    frameRate(4);
+
+    
+    for (let x = 0; x < cols / 2; x++) {
+        colors[x] = [];
+        for (let y = 0; y < rows; y++) {
+            colors[x][y] = random([gray, 'green']);
+        }
+    }
 }
 
 function draw() {
-
-    let circle = circles[i];
     
+    for (let x = 0; x < cols / 2; x++) {
+        for (let y = 0; y < rows; y++) {
+            let currentColor = colors[x][y];
+            if (currentColor === gray) {
+                continue;
+            }
+            let targetR = red(currentColor) + random(-50, 50);
+            let targetG = green(currentColor);
+            let targetB = blue(currentColor);
 
-    // Draw the circle
-    fill('blue');
-    text(i, x, y);
+            
+            targetR = constrain(targetR, 10, 255);
+            targetG = constrain(targetG, 10, 255);
+            targetB = constrain(targetB, 10, 255);
+
+            colors[x][y] = color(random(['green', gray]));
+        }
+    }
+
     
-
-    if (i <= circles.length) {
-        i += 1;
+    for (let x = 0; x < cols; x++) {
+        for (let y = 0; y < rows; y++) {
+            let symX = x < cols / 2 ? x : cols - x - 1; 
+            fill(colors[symX][y]);
+            noStroke();
+            ellipse(x * sizeX, y * sizeY, sizeX, sizeY);
+            ellipse(x * sizeX-1, y * sizeY, sizeX, sizeY);
+            ellipse(x * sizeX, y * sizeY-1, sizeX, sizeY);
+            ellipse(x * sizeX-1, y * sizeY-1, sizeX, sizeY);
+        }
     }
-
-    if (x <= width) {
-        x += random(5);
-    } else {
-        x = 0;
-    }
-
-    if (y <= height) {
-        y += random(5);
-    } else {
-        y = 0;
-    }
-  
 }

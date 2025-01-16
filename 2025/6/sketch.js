@@ -5,7 +5,7 @@ let layerSpeed = [];
 let fillColor;
 
 function setup() {
-    createCanvas(800, 600);
+    createCanvas(500, 500);
     noStroke();
 
     
