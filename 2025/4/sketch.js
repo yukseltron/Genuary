@@ -2,7 +2,7 @@ let colors = [];
 let sizeX = 20;
 let sizeY = 20;
 let cols, rows;
-const gray = 'black'
+const gray = '#2B303A';
 
 function setup() {
     createCanvas(500, 500);
@@ -14,7 +14,7 @@ function setup() {
     for (let x = 0; x < cols / 2; x++) {
         colors[x] = [];
         for (let y = 0; y < rows; y++) {
-            colors[x][y] = random([gray, 'white',]);
+            colors[x][y] = random([gray, 'black',]);
         }
     }
 }
@@ -36,7 +36,7 @@ function draw() {
             targetG = constrain(targetG, 10, 255);
             targetB = constrain(targetB, 10, 255);
 
-            colors[x][y] = color(random(['white', gray]));
+            colors[x][y] = color(random(['black', gray]));
         }
     }
 
