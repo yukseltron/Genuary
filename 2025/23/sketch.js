@@ -1,9 +1,9 @@
 class Snake {
   constructor() {
-    this.path = [createVector(random(width), random(height))]; // Start at a random position
-    this.stepSize = 15;
-    this.maxLength = 50;
-    this.angle = random(TWO_PI); // Random initial angle
+    this.path = [createVector(random(width), random(height))]; 
+    this.stepSize = 50;
+    this.maxLength = 25;
+    this.angle = random(TWO_PI); 
   }
 
   update(snakes) {
@@ -11,11 +11,11 @@ class Snake {
     let newY = this.path[this.path.length - 1].y + sin(this.angle) * this.stepSize;
     let newPos = createVector(newX, newY);
     
-    // Check for boundary collisions
+    
     if (newX < 0 || newX > width || newY < 0 || newY > height) {
-      this.angle += PI; // Reverse direction
+      this.angle += PI; 
     } else if (this.checkCollision(newPos, snakes)) {
-      this.angle += random(PI / 2, PI); // Change direction drastically
+      this.angle += random(PI / 2, PI); 
     } else {
       this.path.push(newPos);
       if (this.path.length > this.maxLength) {
@@ -23,15 +23,15 @@ class Snake {
       }
     }
     
-    this.angle += random(-PI / 6, PI / 6); // Slight random movement
+    this.angle += random(-PI / 6, PI / 6); 
   }
 
   checkCollision(pos, snakes) {
     for (let snake of snakes) {
-      if (snake === this) continue; // Skip self
+      if (snake === this) continue; 
       for (let point of snake.path) {
         if (dist(pos.x, pos.y, point.x, point.y) < 20) {
-          return true; // Collision detected
+          return true; 
         }
       }
     }
@@ -39,14 +39,12 @@ class Snake {
   }
 
   draw(colour, width, height) {
-    stroke(colour);
-    strokeWeight(1);
-    fill('darkgrey');
-    // beginShape();
+    noFill();
     for (let i = 0; i < this.path.length; i++) {
       rect(this.path[i].x, this.path[i].y, width, height);
+      rect(this.path[i].x + 10, this.path[i].y + 10, width - 20, height - 20);
     }
-    // endShape();
+    
   }
 }
 
@@ -59,11 +57,12 @@ let backgroundColor;
 function setup() {
   createCanvas(windowWidth, windowHeight);
   backgroundColor = 'lightgrey';
+  frameRate(20);
   for (let i = 0; i < 10; i++) {
     snakes.push(new Snake());
     colours.push(color(random(255), random(255), random(255)));
-    widths.push(random(5, 200));
-    heights.push(random(5, 200));
+    widths.push(random(5, 50));
+    heights.push(random(5, 50));
   }
 }
 

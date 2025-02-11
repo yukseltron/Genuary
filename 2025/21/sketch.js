@@ -1,9 +1,9 @@
 class Snake {
   constructor() {
-    this.path = [createVector(random(width), random(height))]; // Start at a random position
+    this.path = [createVector(random(width), random(height))]; 
     this.stepSize = 15;
     this.maxLength = 20;
-    this.angle = random(TWO_PI); // Random initial angle
+    this.angle = random(TWO_PI); 
   }
 
   update(snakes) {
@@ -11,11 +11,11 @@ class Snake {
     let newY = this.path[this.path.length - 1].y + sin(this.angle) * this.stepSize;
     let newPos = createVector(newX, newY);
     
-    // Check for boundary collisions
+    
     if (newX < 0 || newX > width || newY < 0 || newY > height) {
-      this.angle += PI; // Reverse direction
+      this.angle += PI; 
     } else if (this.checkCollision(newPos, snakes)) {
-      this.angle += random(PI / 2, PI); // Change direction drastically
+      this.angle += random(PI / 2, PI); 
     } else {
       this.path.push(newPos);
       if (this.path.length > this.maxLength) {
@@ -23,15 +23,15 @@ class Snake {
       }
     }
     
-    this.angle += random(-PI / 6, PI / 6); // Slight random movement
+    this.angle += random(-PI / 6, PI / 6); 
   }
 
   checkCollision(pos, snakes) {
     for (let snake of snakes) {
-      if (snake === this) continue; // Skip self
+      if (snake === this) continue; 
       for (let point of snake.path) {
         if (dist(pos.x, pos.y, point.x, point.y) < 20) {
-          return true; // Collision detected
+          return true; 
         }
       }
     }

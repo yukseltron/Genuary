@@ -2,7 +2,7 @@ let waves = [];
 let cols;
 let rows;
 let t = 0;
-let numWaves = 1; // Number of overlapping wave gradients
+let numWaves = 1; 
 
 function setup() {
   createCanvas(500, 500);
@@ -18,7 +18,7 @@ function draw() {
   for (let wave of waves) {
     wave.display();
   }
-  t += 0.005; // Increment time for smooth color shifting
+  t += 0.005; 
 }
 
 class Wave {

@@ -8,7 +8,6 @@
     align-items: center;
     height: 100vh;
     pointer-events: none;
-    transform: rotate(180deg);
 }
 
 @keyframes fade-in {
