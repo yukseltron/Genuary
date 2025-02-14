@@ -1,13 +1,14 @@
 .sketch-14-2025 {
     margin: 0;
     padding: 0;
-    background-color: rgb(4, 4, 28);
+    background-color: black;
     animation: fade-in;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
     pointer-events: none;
+    overscroll-behavior: none;
 }
 
 @keyframes fade-in {

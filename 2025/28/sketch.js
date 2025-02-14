@@ -11,7 +11,6 @@ class Snake {
     let newY = this.path[this.path.length - 1].y + sin(this.angle) * this.stepSize;
     let newPos = createVector(newX, newY);
     
-    
     if (newX < 0 || newX > width || newY < 0 || newY > height) {
       this.angle += PI; 
     } else if (this.checkCollision(newPos, snakes)) {
@@ -40,11 +39,10 @@ class Snake {
 
   draw(colour) {
     stroke(colour);
-    strokeWeight(10);
     noFill();
     beginShape();
     for (let i = 0; i < this.path.length; i++) {
-      curveVertex(this.path[i].x, this.path[i].y);
+      rect(this.path[i].x, this.path[i].y, 10, 10);
     }
     endShape();
   }
@@ -57,9 +55,9 @@ let backgroundColor;
 function setup() {
   createCanvas(windowWidth, windowHeight);
   backgroundColor = color(random(100,255), random(100,255), random(100,255));
-  for (let i = 0; i < 100; i++) {
+  for (let i = 0; i < 10; i++) {
     let stepSize = random(1, 10);
-    let maxLength = floor(random(5, 30));
+    let maxLength = floor(random(50, 100));
     snakes.push(new Snake(stepSize, maxLength));
     colours.push(color(random(255), random(255), random(255)));
   }
@@ -68,7 +66,17 @@ function setup() {
 function draw() {
   background(backgroundColor);
   for (let i = 0; i < snakes.length; i++) {
-    snakes[i].update(snakes);
     snakes[i].draw(colours[i]);
+  }
+}
+
+// Moves snakes when scrolling
+function mouseWheel(event) {
+  let steps = int(abs(event.delta) / 5); // Number of updates per scroll amount
+  for (let i = 0; i < steps; i++) {
+    for (let snake of snakes) {
+      strokeWeight(steps);
+      snake.update(snakes);
+    }
   }
 }
