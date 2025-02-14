@@ -1,0 +1,20 @@
+.sketch-14-2025 {
+    margin: 0;
+    padding: 0;
+    background-color: lime;
+    animation: fade-in;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    pointer-events: none;
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
