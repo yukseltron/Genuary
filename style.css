@@ -56,3 +56,24 @@ hr {
     width: 100%;
 }
 
+.projects {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.projects a {
+    border: 1px solid white;
+    width: 175px;
+    height: 175px;
+    font-size: 0.75rem;
+}
+
+.projects a:hover, .projects a:focus {
+    background-color: white;
+    color: black;
+    text-decoration: none;
+    font-style: normal;
+    outline: none;
+}
+
