@@ -2,10 +2,9 @@ let t = 0;
 
 function setup() {
   createCanvas(600, 600);
-  stroke('white');
+  stroke('orangered');
   noFill();
   strokeWeight(2);
-  frameRate(4);
 }
 
 function draw() {
@@ -23,12 +22,7 @@ function draw() {
 }
 
 function generateGrid(x, y, s, depth) {
-  rect(x, y + 20, s, s * y);
-  if (random() < 0.01) {
-    fill('white')
-  } else {
-    noFill();
-  }
+  rect(x, y, s, s);
   
   let n = noise(x * 0.05, y * 0.05, t);
   let splitProb = map(depth, 0, 7, 0.8, 0.1);

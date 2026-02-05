@@ -1,4 +1,4 @@
-.sketch-27-2026 {
+.sketch-31-2026 {
     margin: 0;
     padding: 0;
     background-color: black;
@@ -18,7 +18,4 @@
     }
 }
 
-canvas {
-    border: 2px solid white;
-    border-radius: 100%;
-}
+canvas { width: 600px; height: 600px; display: block; }
