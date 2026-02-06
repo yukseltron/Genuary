@@ -8,8 +8,7 @@ function start() {
     outer.className = 'box';
     outer.setAttribute('data-depth', startDepth);
     
-    // Random padding inversely correlated to depth
-    const randomPadding = Math.random() * 8 + 2; // 2-10px
+    const randomPadding = Math.random() * 8 + 2; 
     const depthFactor = Math.max(0.1, 1 - (startDepth / depth));
     outer.style.padding = (randomPadding * depthFactor) + 'px';
     
@@ -21,7 +20,6 @@ function start() {
       const currentDepth = startDepth + i;
       child.setAttribute('data-depth', currentDepth);
       
-      // More padding for shallower depths, less for deeper
       const childRandomPadding = Math.random() * depth + 2;
       const childDepthFactor = Math.max(0.1, 1 - (currentDepth / depth));
       child.style.padding = (childRandomPadding * childDepthFactor) + 'px';

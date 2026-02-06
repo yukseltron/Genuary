@@ -1,6 +1,5 @@
 import * as THREE from 'three';
 
-// --- SHADER SOURCE ---
 const vertexShader = `
   varying vec2 vUv;
   void main() {
@@ -14,11 +13,9 @@ const fragmentShader = `
   uniform vec2 u_resolution;
 
   void main() {
-    // Normalize coordinates with aspect ratio correction
     vec2 uv = (gl_FragCoord.xy * 2.0 - u_resolution.xy) / min(u_resolution.y, u_resolution.x);
     vec3 finalColor = vec3(0.0);
     
-    // Generative Loop
     for (float i = 0.0; i < 4.0; i++) {
       uv.x += 0.002 * sin(uv.y * 3.0 + u_time * 0.5);
       uv.y += -0.2 * cos(uv.x * 40.0 + u_time * 0.8);
@@ -26,7 +23,7 @@ const fragmentShader = `
       float d = length(uv);
       float ring = sin(d * 0.9 - u_time * 3.0) / 10.0;
       ring = abs(ring);
-      ring = 0.01 / ring; // The "Glow" intensity
+      ring = 0.01 / ring; 
       
       vec3 color = vec3(0.01 + 0.05 * sin(i + u_time), 0.3, 0.8 + 0.2 * cos(i));
       finalColor += color * ring;
@@ -36,7 +33,6 @@ const fragmentShader = `
   }
 `;
 
-// --- THREE.JS SETUP ---
 const scene = new THREE.Scene();
 const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
 const renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -58,7 +54,6 @@ const material = new THREE.ShaderMaterial({
 const mesh = new THREE.Mesh(geometry, material);
 scene.add(mesh);
 
-// --- RENDER & RESIZE LOGIC ---
 function onWindowResize() {
   const w = 600;
   const h = 600;
@@ -71,7 +66,7 @@ onWindowResize();
 
 function animate(time) {
   requestAnimationFrame(animate);
-  uniforms.u_time.value = time * 0.0001; // Convert ms to seconds
+  uniforms.u_time.value = time * 0.0001; 
   renderer.render(scene, camera);
 }
 
