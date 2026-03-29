@@ -1,72 +1,68 @@
-let weatherData = null;
+const P = Array.from({length: 256}, (_, i) => i);
+for (let i = 255; i > 0; i--) {
+  const j = (Math.random() * (i + 1)) | 0;
+  [P[i], P[j]] = [P[j], P[i]];
+}
+const perm = [...P, ...P];
 
-function fetchWeatherData(lat, lon) {
-  const apiUrl = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&hourly=temperature_2m,relative_humidity_2m,wind_speed_10m`;
-  return fetch(apiUrl)
-    .then((response) => response.json())
-    .then((data) => {
-      weatherData = {
-        temperature: data.current_weather.temperature || 20,
-        windSpeed: data.current_weather.windspeed || 5,
-        humidity: data.hourly.relative_humidity_2m[0] || 50,
-      };
-      redraw();
-    })
-    .catch((err) => console.error('Error fetching weather data:', err));
+const fade = t => t * t * t * (t * (t * 6 - 15) + 10);
+const lerp  = (a, b, t) => a + (b - a) * t;
+const grad  = (h, x, y, z) => {
+  const u = (h & 8) ? y : x;
+  const v = (h & 4) ? (h & 2 ? x : z) : y;
+  return ((h & 1) ? -u : u) + ((h & 2) ? -v : v);
+};
+
+function noise(x, y, z) {
+  const X = Math.floor(x) & 255, Y = Math.floor(y) & 255, Z = Math.floor(z) & 255;
+  x -= Math.floor(x); y -= Math.floor(y); z -= Math.floor(z);
+  const u = fade(x), v = fade(y), w = fade(z);
+  const A  = perm[X]   + Y, AA = perm[A]   + Z, AB = perm[A+1] + Z;
+  const B  = perm[X+1] + Y, BA = perm[B]   + Z, BB = perm[B+1] + Z;
+  return lerp(
+    lerp(lerp(grad(perm[AA],   x,   y,   z), grad(perm[BA],   x-1, y,   z), u),
+         lerp(grad(perm[AB],   x,   y-1, z), grad(perm[BB],   x-1, y-1, z), u), v),
+    lerp(lerp(grad(perm[AA+1], x,   y,   z-1), grad(perm[BA+1], x-1, y,   z-1), u),
+         lerp(grad(perm[AB+1], x,   y-1, z-1), grad(perm[BB+1], x-1, y-1, z-1), u), v),
+    w) * 0.5 + 0.5;
 }
 
-function setup() {
-  createCanvas(500, 500);
-  noLoop();
 
-  navigator.geolocation.getCurrentPosition(
-    (position) => {
-      const lat = position.coords.latitude;
-      const lon = position.coords.longitude;
-      fetchWeatherData(lat, lon);
-    },
-    (error) => {
-      console.error('Error getting location:', error);
+function hslHex(h, s, l) {
+  h /= 360; s /= 100; l /= 100;
+  const q = l < 0.5 ? l * (1 + s) : l + s - l * s, p = 2 * l - q;
+  const hue2 = (p, q, t) => {
+    t = t < 0 ? t + 1 : t > 1 ? t - 1 : t;
+    return t < 1/6 ? p + (q-p)*6*t : t < 0.5 ? q : t < 2/3 ? p + (q-p)*(2/3-t)*6 : p;
+  };
+  return '#' + [h + 1/3, h, h - 1/3].map(t =>
+    Math.round((s === 0 ? l : hue2(p, q, t)) * 255).toString(16).padStart(2, '0')
+  ).join('');
+}
+
+const CHARS = '     ·.,:;!-_=|/\\+*#@01xFfe';
+
+const pre  = document.getElementById('c');
+const COLS = Math.floor(window.innerWidth  / 9) - 1;
+const ROWS = Math.floor(window.innerHeight / 17) - 1;
+
+let t = 0;
+
+function frame() {
+  const lines = [];
+
+  for (let r = 0; r < ROWS; r++) {
+    let row = '';
+    for (let c = 0; c < COLS; c++) {
+      const n   = noise(c * 0.05, r * 0.07, t);
+      const idx = Math.min((n * CHARS.length) | 0, CHARS.length - 1);
+      row += CHARS[idx];
     }
-  );
+    lines.push(`<font color="white">${row}</font>`);
+  }
+
+  pre.innerHTML = lines.join('\n');
+  t += 0.018;
 }
 
-function draw() {
-  if (!weatherData) {
-    background(0);
-    fill(255);
-    textAlign(CENTER, CENTER);
-    textSize(20);
-    text('Loading weather data...', width / 2, height / 2);
-    return;
-  }
-
-  background(0);
-
-  const { temperature, windSpeed, humidity } = weatherData;
-
-  const tempColor = map(temperature, -10, 40, 0, 255);
-  const windStrength = map(windSpeed, 0, 20, 1, 5);
-  const humiditySize = map(humidity, 0, 100, 10, 200);
-
-  strokeWeight(windStrength);
-  stroke(tempColor, 100, 255 - tempColor, 150);
-  for (let i = 0; i < 50; i++) {
-    const x1 = random(width);
-    const y1 = random(height);
-    const x2 = x1 + random(-50, 50) * windStrength;
-    const y2 = y1 + random(-50, 50) * windStrength;
-    stroke(tempColor, 100, 255 - tempColor, 150);
-    line(x1, y1, x2, y2);
-  }
-
-  noStroke();
-  fill(100, 255, tempColor, 100);
-  for (let i = 0; i < 30; i++) {
-    const x = random(width);
-    const y = random(height);
-    const size = random(humiditySize * 0.5, humiditySize);
-    fill(random(100, 255), 255 - tempColor, tempColor, 100);
-    ellipse(x, y, size, size);
-  }
-}
+setInterval(frame, 66);
