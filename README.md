@@ -1,5 +1,5 @@
 # Genuary
-Genuary Art creations based on prompts.
+Gen Art creations based on [Genuary Art](https://genuary.art/) prompts.
 
 
 
